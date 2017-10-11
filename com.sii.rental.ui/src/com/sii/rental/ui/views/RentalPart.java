@@ -51,7 +51,7 @@ public class RentalPart {
 		Label lblDateFrom = new Label(dateGroup, SWT.NONE);
 		lblDateFrom.setText("From : ");
 		
-		 lblDateInfoFrom = new Label(dateGroup, SWT.NONE);
+		lblDateInfoFrom = new Label(dateGroup, SWT.NONE);
 
 		
 		Label lblDateTo = new Label(dateGroup, SWT.NONE);
