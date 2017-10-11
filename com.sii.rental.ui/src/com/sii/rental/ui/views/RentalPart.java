@@ -2,8 +2,12 @@
 package com.sii.rental.ui.views;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -13,7 +17,6 @@ import org.eclipse.swt.widgets.Label;
 
 import com.opcoach.training.rental.Rental;
 import com.opcoach.training.rental.RentalAgency;
-import com.sii.rental.core.RentalCoreActivator;
 
 
 public class RentalPart {
@@ -67,11 +70,20 @@ public class RentalPart {
 		
 	}
 	
+	@Inject @Optional public void listentoSel(@Named(IServiceConstants.ACTIVE_SELECTION) Rental r) {
+		if (r != null)
+			setRental(r);
+	}
+	
+	
+	
 	public void setRental(Rental r)
 	{
-		rentedObjectLabel.setText(r.getRentedObject().getName());
-		lblRenteeName.setText(r.getCustomer().getFirstName()  + " " + r.getCustomer().getLastName());
-		lblDateInfoFrom.setText(r.getStartDate().toString());
-		lblDateInfoTo.setText(r.getEndDate().toString());
+		if (rentedObjectLabel != null) {
+			rentedObjectLabel.setText(r.getRentedObject().getName());
+			lblRenteeName.setText(r.getCustomer().getFirstName()  + " " + r.getCustomer().getLastName());
+			lblDateInfoFrom.setText(r.getStartDate().toString());
+			lblDateInfoTo.setText(r.getEndDate().toString());
+		}
 	}
 }
