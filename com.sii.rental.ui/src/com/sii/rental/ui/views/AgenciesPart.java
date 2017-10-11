@@ -6,6 +6,8 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
+import org.eclipse.e4.core.contexts.ContextInjectionFactory;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 
@@ -16,13 +18,13 @@ public class AgenciesPart {
 	private TreeViewer tv;
 	
 	@PostConstruct
-	public void createContent(Composite parent, RentalAgency injectedAgency) {
+	public void createContent(Composite parent, RentalAgency injectedAgency, IEclipseContext ctx) {
 		Collection<RentalAgency> listAgencies = new ArrayList<>();
 		listAgencies.add(injectedAgency);
 		tv = new TreeViewer(parent);
 		
 		
-		RentalProvider provider = new RentalProvider();
+		RentalProvider provider = ContextInjectionFactory.make(RentalProvider.class, ctx);
 		tv.setContentProvider(provider);
 		tv.setLabelProvider(provider);
 		

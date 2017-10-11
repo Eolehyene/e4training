@@ -1,7 +1,12 @@
 package com.sii.rental.ui.views;
 
+import java.rmi.registry.Registry;
 import java.util.Collection;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -14,9 +19,12 @@ import com.opcoach.training.rental.Customer;
 import com.opcoach.training.rental.Rental;
 import com.opcoach.training.rental.RentalAgency;
 import com.opcoach.training.rental.RentalObject;
+import com.sii.rental.ui.RentalUIConstants;
 
-public class RentalProvider extends LabelProvider implements ITreeContentProvider, IColorProvider {
-
+public class RentalProvider extends LabelProvider implements ITreeContentProvider, IColorProvider, RentalUIConstants {
+	@Inject @Named(RENTAL_UI_IMG_REGISTRY)
+	private ImageRegistry registry;
+	
 	public RentalProvider() {
 		// TODO Auto-generated constructor stub
 	}
@@ -55,9 +63,18 @@ public class RentalProvider extends LabelProvider implements ITreeContentProvide
 
 	@Override
 	public Image getImage(Object element) {
-//		if (element instanceof RentalAgency) {
-//			return (((RentalAgency) element).get);
-//		}
+		if (element instanceof RentalAgency) {
+			return registry.get(IMG_AGENCY);
+		}
+		if (element instanceof Customer) {
+			return registry.get(IMG_CUSTOMER);
+		}
+		if (element instanceof Rental) {
+			return registry.get(IMG_RENTAL);
+		}
+		if (element instanceof RentalObject) {
+			return registry.get(IMG_RENTAL_OBJECT);
+		}
 		return super.getImage(element);
 	}
 
