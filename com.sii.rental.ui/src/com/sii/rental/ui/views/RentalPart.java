@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 import com.opcoach.training.rental.Rental;
+import com.sii.rental.core.RentalCoreActivator;
 
 
 public class RentalPart {
@@ -32,6 +33,8 @@ public class RentalPart {
 		gd.horizontalSpan = 2;
 		gd.horizontalAlignment = SWT.FILL;
 		rentedObjectLabel.setLayoutData(gd);
+		
+		setRental(RentalCoreActivator.getAgency().getRentals().get(0));
 	}
 
 	@Focus
