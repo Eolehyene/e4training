@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 import com.opcoach.training.rental.Rental;
+import com.opcoach.training.rental.RentalAgency;
 import com.sii.rental.core.RentalCoreActivator;
 
 
@@ -23,7 +24,7 @@ public class RentalPart {
 	private Label lblDateInfoTo;
 	
 	@PostConstruct
-	public void createContent(Composite parent) {
+	public void createContent(Composite parent, RentalAgency injectedAgency) {
 		parent.setLayout(new GridLayout(1,false));
 		
 		Group infoGroup = new Group(parent, SWT.NONE);
@@ -58,7 +59,7 @@ public class RentalPart {
 		
 		lblDateInfoTo = new Label(dateGroup, SWT.NONE);
 		
-		setRental(RentalCoreActivator.getAgency().getRentals().get(0));
+		setRental(injectedAgency.getRentals().get(0));
 	}
 
 	@Focus
