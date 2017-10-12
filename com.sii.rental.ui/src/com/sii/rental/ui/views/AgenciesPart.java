@@ -7,7 +7,6 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.extensions.Preference;
@@ -56,7 +55,7 @@ public class AgenciesPart implements RentalUIConstants{
 	public void refresh(@Preference(value=PREF_CUSTOMER_COLOR) String ccolor ,
 						@Preference(value=PREF_RENTAL_COLOR) String rcolor,
 						@Preference(value=PREF_RENTAL_OBJECT_COLOR) String rocolor) {
-		if (tv != null) {
+		if ((tv != null) && !tv.getControl().isDisposed()){
 			tv.refresh();
 		}
 	}
