@@ -1,12 +1,16 @@
 package com.sii.rental.ui.views;
 
-import java.rmi.registry.Registry;
 import java.util.Collection;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.e4.ui.services.IServiceConstants;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -25,10 +29,24 @@ public class RentalProvider extends LabelProvider implements ITreeContentProvide
 	@Inject @Named(RENTAL_UI_IMG_REGISTRY)
 	private ImageRegistry registry;
 	
+	@Inject @Named(RENTAL_UI_PREF_STORE)
+	private IPreferenceStore ps;
+	
 	public RentalProvider() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	private Color getAColor(String rgbKey) {
+		ColorRegistry colorRegistry = JFaceResources.getColorRegistry();
+		
+		Color col = colorRegistry.get(rgbKey);
+		if (col == null) {
+			colorRegistry.put(rgbKey, StringConverter.asRGB(rgbKey));
+			col = colorRegistry.get(rgbKey);
+		}
+		return col;
+	}
+	
 	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof Collection<?>) {
@@ -99,13 +117,13 @@ public class RentalProvider extends LabelProvider implements ITreeContentProvide
 	@Override
 	public Color getForeground(Object element) {
 		if (element instanceof Customer) {
-			return Display.getCurrent().getSystemColor(SWT.COLOR_DARK_MAGENTA);
+			return getAColor(ps.getString(PREF_CUSTOMER_COLOR));
 		}
 		if (element instanceof Rental) {
-			return Display.getCurrent().getSystemColor(SWT.COLOR_DARK_BLUE);
+			return getAColor(ps.getString(PREF_RENTAL_COLOR));
 		}
 		if (element instanceof RentalObject) {
-			return Display.getCurrent().getSystemColor(SWT.COLOR_MAGENTA);
+			return getAColor(ps.getString(PREF_RENTAL_OBJECT_COLOR));
 		}		
 		return null;
 	}

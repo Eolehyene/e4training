@@ -7,8 +7,10 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.di.extensions.Preference;
 import org.eclipse.e4.ui.services.EMenuService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -18,8 +20,9 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 
 import com.opcoach.training.rental.RentalAgency;
+import com.sii.rental.ui.RentalUIConstants;
 
-public class AgenciesPart {
+public class AgenciesPart implements RentalUIConstants{
 	@Inject
 	private ESelectionService selectionService;
 	private TreeViewer tv;
@@ -49,4 +52,12 @@ public class AgenciesPart {
 		menuService.registerContextMenu(tv.getControl(), "com.sii.rental.eap.popupmenu.0");
 	}
 
+	@Inject
+	public void refresh(@Preference(value=PREF_CUSTOMER_COLOR) String ccolor ,
+						@Preference(value=PREF_RENTAL_COLOR) String rcolor,
+						@Preference(value=PREF_RENTAL_OBJECT_COLOR) String rocolor) {
+		if (tv != null) {
+			tv.refresh();
+		}
+	}
 }
