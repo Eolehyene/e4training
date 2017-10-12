@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_6wlLcMgZEeSyMNYR5xypkQ" elementId="com.sii.rental.eap.application" bindingContexts="_6wlLecgZEeSyMNYR5xypkQ">
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmlns:ui="http://www.eclipse.org/ui/2010/UIModel/application/ui" xmi:id="_6wlLcMgZEeSyMNYR5xypkQ" elementId="com.sii.rental.eap.application" bindingContexts="_6wlLecgZEeSyMNYR5xypkQ">
   <children xsi:type="basic:TrimmedWindow" xmi:id="_6wlLccgZEeSyMNYR5xypkQ" elementId="com.sii.rental.eap.window.main" label="Eclipse 4 RCP Application" width="500" height="400">
     <children xsi:type="basic:PartSashContainer" xmi:id="_6wlLksgZEeSyMNYR5xypkQ" elementId="com.sii.rental.eap.partsashcontainer.sample" horizontal="true">
       <children xsi:type="basic:Part" xmi:id="_r4Ay4K6EEeey97X2JaiMDA" elementId="com.sii.rental.eap.part.treepart" containerData="2200" contributionURI="bundleclass://com.sii.rental.ui/com.sii.rental.ui.views.AgenciesPart" label="TreePart">
@@ -13,6 +13,11 @@
             <tags>ViewMenu</tags>
             <children xsi:type="menu:HandledMenuItem" xmi:id="_3VNNsK8uEeey97X2JaiMDA" elementId="com.sii.rental.eap.handledmenuitem.0" iconURI="platform:/plugin/com.sii.rental.eap/icons/ms16.png" command="_syQTsK8rEeey97X2JaiMDA"/>
           </menus>
+          <toolbar xmi:id="_lD2EQK8wEeey97X2JaiMDA" elementId="com.sii.rental.eap.toolbar.0">
+            <children xsi:type="menu:HandledToolItem" xmi:id="_mXNwoK8wEeey97X2JaiMDA" elementId="com.sii.rental.eap.handledtoolitem.urss" label="URSS" iconURI="platform:/plugin/com.sii.rental.eap/icons/ms16.png" command="_syQTsK8rEeey97X2JaiMDA">
+              <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_nVTwkK8wEeey97X2JaiMDA"/>
+            </children>
+          </toolbar>
         </children>
       </children>
     </children>
