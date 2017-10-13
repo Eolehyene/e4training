@@ -95,7 +95,8 @@ public class RentalAddon implements RentalUIConstants{
 		} 
 	}
 	
-	public void refreshPalettePreferences(@Preference(value = PREF_PALETTE) String paletteID, IEclipseContext ctx) {
+	@Inject
+	public void refreshPalettePreferences(@Preference(value=PREF_PALETTE) String paletteID, IEclipseContext ctx) {
 		if (paletteManager != null)
 			ctx.set(Palette.class, paletteManager.get(paletteID));
 	}

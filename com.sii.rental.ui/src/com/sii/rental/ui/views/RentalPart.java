@@ -76,7 +76,6 @@ public class RentalPart {
 	}
 	
 	
-	
 	public void setRental(Rental r)
 	{
 		if (rentedObjectLabel != null) {
