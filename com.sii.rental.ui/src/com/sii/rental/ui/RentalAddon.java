@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.core.di.extensions.Preference;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -34,11 +35,15 @@ public class RentalAddon implements RentalUIConstants{
 	public void init (IEclipseContext ctx, IExtensionRegistry reg) {
 		ctx.set(RentalAgency.class, RentalAgencyGenerator.createSampleAgency());
 		ctx.set(RENTAL_UI_IMG_REGISTRY, getLocalImageRegistry());
-		ctx.set(RENTAL_UI_PREF_STORE, new ScopedPreferenceStore(InstanceScope.INSTANCE, PLUGIN_ID));
+		ScopedPreferenceStore ps = new ScopedPreferenceStore(InstanceScope.INSTANCE, PLUGIN_ID);
+		ctx.set(RENTAL_UI_PREF_STORE, ps);
 		getExtensions(reg, ctx);
 		if (paletteManager != null) {
 			ctx.set(PALETTE_MANAGER, paletteManager);
 		}
+		
+		String palId = ps.getString(PREF_PALETTE);
+		ctx.set(Palette.class, paletteManager.get(palId));
 	}
 	
 	ImageRegistry getLocalImageRegistry()
@@ -68,25 +73,31 @@ public class RentalAddon implements RentalUIConstants{
 	
 	public void getExtensions(IExtensionRegistry reg, IEclipseContext ctx) {
 		for (IConfigurationElement elt : reg.getConfigurationElementsFor("com.sii.rental.ui.palette")) {
-				
-				Bundle b = Platform.getBundle(elt.getNamespaceIdentifier());
-				Class<?> clazz = null;
-				try {
-					clazz = b.loadClass(elt.getAttribute("paletteClass"));
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidRegistryObjectException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				System.out.println("Found palette " + elt.getAttribute("id"));
-				Palette pal = new Palette();
-				pal.setId(elt.getAttribute("id"));
-				pal.setName(elt.getAttribute("name"));
-				pal.setProvider((IColorProvider)  ContextInjectionFactory.make(clazz, ctx));
-				paletteManager.put(elt.getAttribute("id"), pal);
+			
+			Bundle b = Platform.getBundle(elt.getNamespaceIdentifier());
+			Class<?> clazz = null;
+			try {
+				clazz = b.loadClass(elt.getAttribute("paletteClass"));
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidRegistryObjectException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			System.out.println("Found palette " + elt.getAttribute("id"));
+			Palette pal = new Palette();
+			pal.setId(elt.getAttribute("id"));
+			pal.setName(elt.getAttribute("name"));
+			pal.setProvider((IColorProvider)  ContextInjectionFactory.make(clazz, ctx));
+			paletteManager.put(elt.getAttribute("id"), pal);
 		} 
 	}
+	
+	public void refreshPalettePreferences(@Preference(value = PREF_PALETTE) String paletteID, IEclipseContext ctx) {
+		if (paletteManager != null)
+			ctx.set(Palette.class, paletteManager.get(paletteID));
+	}
+
 }
