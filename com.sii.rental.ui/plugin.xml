@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="palette" name="palette" schema="schema/palette.exsd"/>
    <extension
          point="com.opcoach.e4.preferences.e4PreferencePages">
       <page
@@ -16,6 +17,19 @@
             apply="always"
             uri="fragment.e4xmi">
       </fragment>
+   </extension>
+   <extension
+         point="com.sii.rental.ui.palette">
+      <palette
+            id="com.sii.rental.ui.DefaultPalette"
+            name="com.sii.rental.ui.palettedefault"
+            paletteClass="com.sii.rental.ui.DefaultPalette">
+      </palette>
+      <palette
+            id="com.sii.rental.ui.URSSPalette"
+            name="com.sii.rental.ui.palettedefault"
+            paletteClass="com.sii.rental.ui.URSSPalette">
+      </palette>
    </extension>
 
 </plugin>

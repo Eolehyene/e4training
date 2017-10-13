@@ -1,17 +1,23 @@
 package com.sii.rental.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.InvalidRegistryObjectException;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.viewers.IColorProvider;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
@@ -21,11 +27,15 @@ import com.opcoach.training.rental.RentalAgency;
 import com.opcoach.training.rental.core.helpers.RentalAgencyGenerator;
 
 public class RentalAddon implements RentalUIConstants{
+	
+	private Map<String, Palette> paletteManager = new HashMap<>();
+	
 	@PostConstruct
 	public void init (IEclipseContext ctx, IExtensionRegistry reg) {
 		ctx.set(RentalAgency.class, RentalAgencyGenerator.createSampleAgency());
 		ctx.set(RENTAL_UI_IMG_REGISTRY, getLocalImageRegistry());
 		ctx.set(RENTAL_UI_PREF_STORE, new ScopedPreferenceStore(InstanceScope.INSTANCE, PLUGIN_ID));
+		getExtensions(reg, ctx);
 	}
 	
 	ImageRegistry getLocalImageRegistry()
@@ -53,15 +63,29 @@ public class RentalAddon implements RentalUIConstants{
 		System.out.println("Customer " + c.getDisplayName() + " copied");
 	}
 	
-	@Inject
-	public void getExtensions(IExtensionRegistry reg) {
-		for (IConfigurationElement elt : reg.getConfigurationElementsFor("org.eclipse.e4.workbench.model")) {
-			if (elt.getName().compareTo("fragment") == 0) {
-				System.out.println(elt.getNamespaceIdentifier() + " : Found  " +  elt.getName() + " with uri: " + elt.getAttribute("uri"));
-			}
-			else if (elt.getName().compareTo("fragment") == 0) {
-				System.out.println(elt.getNamespaceIdentifier() + " : Found " +  elt.getName() + " with uri: " + elt.getAttribute("class"));
-			}
+	public void getExtensions(IExtensionRegistry reg, IEclipseContext ctx) {
+		for (IConfigurationElement elt : reg.getConfigurationElementsFor("com.sii.rental.ui.palette")) {
+				
+				Bundle b = Platform.getBundle(elt.getNamespaceIdentifier());
+				Class<?> clazz = null;
+				try {
+					clazz = b.loadClass(elt.getAttribute("paletteClass"));
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidRegistryObjectException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Found palette " + elt.getAttribute("id"));
+				
+				Palette pal = new Palette();
+				pal.setId(elt.getAttribute("id"));
+				pal.setName(elt.getAttribute("name"));
+				pal.setProvider((IColorProvider)  ContextInjectionFactory.make(clazz, ctx));
+				
+				
+				paletteManager.put(elt.getAttribute("id"), pal);
 		} 
 	}
 }
