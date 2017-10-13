@@ -36,6 +36,9 @@ public class RentalAddon implements RentalUIConstants{
 		ctx.set(RENTAL_UI_IMG_REGISTRY, getLocalImageRegistry());
 		ctx.set(RENTAL_UI_PREF_STORE, new ScopedPreferenceStore(InstanceScope.INSTANCE, PLUGIN_ID));
 		getExtensions(reg, ctx);
+		if (paletteManager != null) {
+			ctx.set(PALETTE_MANAGER, paletteManager);
+		}
 	}
 	
 	ImageRegistry getLocalImageRegistry()
@@ -77,14 +80,12 @@ public class RentalAddon implements RentalUIConstants{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("Found palette " + elt.getAttribute("id"));
 				
+				System.out.println("Found palette " + elt.getAttribute("id"));
 				Palette pal = new Palette();
 				pal.setId(elt.getAttribute("id"));
 				pal.setName(elt.getAttribute("name"));
 				pal.setProvider((IColorProvider)  ContextInjectionFactory.make(clazz, ctx));
-				
-				
 				paletteManager.put(elt.getAttribute("id"), pal);
 		} 
 	}

@@ -9,6 +9,11 @@
             id="com.sii.rental.ui.colorPrefPage"
             name="Color Preference Page">
       </page>
+      <page
+            class="com.sii.rental.ui.prefs.PalettePrefPage"
+            id="com.sii.rental.ui.page.palette"
+            name="Palettes">
+      </page>
    </extension>
    <extension
          id="id1"
@@ -22,12 +27,12 @@
          point="com.sii.rental.ui.palette">
       <palette
             id="com.sii.rental.ui.DefaultPalette"
-            name="com.sii.rental.ui.palettedefault"
+            name="default"
             paletteClass="com.sii.rental.ui.DefaultPalette">
       </palette>
       <palette
             id="com.sii.rental.ui.URSSPalette"
-            name="com.sii.rental.ui.palettedefault"
+            name="URSS"
             paletteClass="com.sii.rental.ui.URSSPalette">
       </palette>
    </extension>
